@@ -152,9 +152,10 @@ project
 ## Próximos Passos
 
 ### Expansão da camada Silver
-Criação de novas tabelas para exploração de estatísticas como:
-* Escalações
-* Substituições
+Criação de nova tabela para exploração de estatísticas como:
+* Faltas
+* Penâltis
+* Escanteios
 
 ### Criação da camada Gold
 Construção de modelos analíticos.
