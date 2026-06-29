@@ -14,7 +14,7 @@ Todo o projeto foi desenvolvido no **Databricks**, utilizando **PySpark**, **Del
                              ▼
                      Bronze (Raw Layer)
                              │
-        ┌────────────────────│───────────────│──────────────┐
+        ┌────────────────────│───────────────┐──────────────┐
         ▼                    ▼               ▼              ▼  
     Silver                Silver           Silver          Silver  
    Matches                 Goals            Cards           Statistics
