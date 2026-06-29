@@ -1,0 +1,1556 @@
+{
+  "datasets": [
+    {
+      "name": "7d618a42",
+      "displayName": "Team Performance Metrics with Calculated Success Rate",
+      "queryLines": [
+        "select\r\n",
+        "  *,\r\n",
+        "  round(points / (matches * 3) * 100, 2) as rate\r\n",
+        "from\r\n",
+        "  team_statistics"
+      ],
+      "catalog": "api_football",
+      "schema": "gold"
+    },
+    {
+      "name": "970b65ab",
+      "displayName": "players performance rankings with key statistics",
+      "queryLines": [
+        "select\r\n",
+        "  *,\r\n",
+        "  dense_rank() over(order by goals desc) as goals_rank,\r\n",
+        "  dense_rank() over(order by assists desc) as assists_rank,\r\n",
+        "  dense_rank() over(order by yellow_cards desc) as yellow_cards_rank,\r\n",
+        "  dense_rank() over(order by red_cards desc) as red_cards_rank\r\n",
+        "from\r\n",
+        "  players_statistics"
+      ],
+      "catalog": "api_football",
+      "schema": "gold"
+    },
+    {
+      "name": "ac5771a4",
+      "displayName": "Performance Metrics Overview Dataset",
+      "queryLines": [
+        "select * \n",
+        "from acuracy_statistics\n",
+        "order by shots_on_goal_pct desc"
+      ],
+      "catalog": "api_football",
+      "schema": "gold"
+    }
+  ],
+  "pages": [
+    {
+      "name": "456804c3",
+      "displayName": "Classificação",
+      "layout": [
+        {
+          "widget": {
+            "name": "c8619ed2",
+            "queries": [
+              {
+                "name": "main_query",
+                "query": {
+                  "datasetName": "7d618a42",
+                  "fields": [
+                    {
+                      "name": "ranking",
+                      "expression": "`ranking`"
+                    },
+                    {
+                      "name": "team_name",
+                      "expression": "`team_name`"
+                    },
+                    {
+                      "name": "matches",
+                      "expression": "`matches`"
+                    },
+                    {
+                      "name": "points",
+                      "expression": "`points`"
+                    },
+                    {
+                      "name": "yellow_cards",
+                      "expression": "`yellow_cards`"
+                    },
+                    {
+                      "name": "red_cards",
+                      "expression": "`red_cards`"
+                    },
+                    {
+                      "name": "wins",
+                      "expression": "`wins`"
+                    },
+                    {
+                      "name": "draws",
+                      "expression": "`draws`"
+                    },
+                    {
+                      "name": "losses",
+                      "expression": "`losses`"
+                    },
+                    {
+                      "name": "goals_for",
+                      "expression": "`goals_for`"
+                    },
+                    {
+                      "name": "goals_against",
+                      "expression": "`goals_against`"
+                    },
+                    {
+                      "name": "goal_difference",
+                      "expression": "`goal_difference`"
+                    },
+                    {
+                      "name": "rate",
+                      "expression": "`rate`"
+                    }
+                  ],
+                  "disaggregated": true
+                }
+              }
+            ],
+            "spec": {
+              "version": 2,
+              "rowsPerPage": 20,
+              "headerStyle": {
+                "bold": true
+              },
+              "widgetType": "table",
+              "encodings": {
+                "columns": [
+                  {
+                    "fieldName": "ranking",
+                    "format": {
+                      "type": "number-plain",
+                      "abbreviation": "none",
+                      "decimalPlaces": {
+                        "type": "exact",
+                        "places": 0
+                      },
+                      "hideGroupSeparator": true
+                    },
+                    "contentAlignment": "left",
+                    "headerStyle": {
+                      "bold": true
+                    },
+                    "displayName": "Posição",
+                    "style": {
+                      "type": "basic",
+                      "rules": [
+                        {
+                          "condition": {
+                            "operand": {
+                              "type": "data-value",
+                              "value": "4"
+                            },
+                            "operator": "<=",
+                            "fieldName": "ranking"
+                          },
+                          "backgroundColor": {
+                            "themeColorType": "widgetBackgroundColor"
+                          },
+                          "foregroundColor": {
+                            "themeColorType": "visualizationColors",
+                            "position": 3
+                          }
+                        },
+                        {
+                          "condition": {
+                            "operand": {
+                              "type": "data-value",
+                              "value": "5"
+                            },
+                            "operator": "=",
+                            "fieldName": "ranking"
+                          },
+                          "backgroundColor": {
+                            "themeColorType": "widgetBackgroundColor"
+                          },
+                          "foregroundColor": {
+                            "themeColorType": "visualizationColors",
+                            "position": 1
+                          }
+                        },
+                        {
+                          "condition": {
+                            "operand": {
+                              "type": "data-value",
+                              "value": "17"
+                            },
+                            "operator": ">=",
+                            "fieldName": "ranking"
+                          },
+                          "backgroundColor": {
+                            "themeColorType": "widgetBackgroundColor"
+                          },
+                          "foregroundColor": {
+                            "themeColorType": "visualizationColors",
+                            "position": 4
+                          }
+                        }
+                      ]
+                    }
+                  },
+                  {
+                    "fieldName": "team_name",
+                    "contentAlignment": "left",
+                    "displayName": "Time"
+                  },
+                  {
+                    "fieldName": "matches",
+                    "contentAlignment": "left",
+                    "displayName": "Partidas jogadas"
+                  },
+                  {
+                    "fieldName": "points",
+                    "contentAlignment": "left",
+                    "displayName": "Pontos"
+                  },
+                  {
+                    "fieldName": "yellow_cards",
+                    "contentAlignment": "left",
+                    "displayName": "Cartões amarelos"
+                  },
+                  {
+                    "fieldName": "red_cards",
+                    "contentAlignment": "left",
+                    "displayName": "Cartões vermelhos"
+                  },
+                  {
+                    "fieldName": "wins",
+                    "contentAlignment": "left",
+                    "displayName": "Vitórias"
+                  },
+                  {
+                    "fieldName": "draws",
+                    "contentAlignment": "left",
+                    "displayName": "Empates"
+                  },
+                  {
+                    "fieldName": "losses",
+                    "contentAlignment": "left",
+                    "displayName": "Derrotas"
+                  },
+                  {
+                    "fieldName": "goals_for",
+                    "contentAlignment": "left",
+                    "displayName": "Gols a favor"
+                  },
+                  {
+                    "fieldName": "goals_against",
+                    "contentAlignment": "left",
+                    "displayName": "Gols contra"
+                  },
+                  {
+                    "fieldName": "goal_difference",
+                    "contentAlignment": "left",
+                    "displayName": "Saldo de gols"
+                  },
+                  {
+                    "fieldName": "rate",
+                    "contentAlignment": "left",
+                    "displayName": "Aproveitamento (%)"
+                  }
+                ]
+              },
+              "data": {
+                "queryName": "main_query"
+              }
+            }
+          },
+          "position": {
+            "x": 0,
+            "y": 2,
+            "width": 12,
+            "height": 12
+          }
+        },
+        {
+          "widget": {
+            "name": "48ad66c0",
+            "multilineTextboxSpec": {
+              "lines": [
+                "# <span style=\"text-align:center;display:block\"><span style=\"font-size:24px\">**Tabela de Classificação do Campeonato Brasileiro Série A - 2026**</span></span>\n",
+                "\n",
+                "<span style=\"font-size:10px\">Critério principal de desempate: Saldo de gols</span>"
+              ],
+              "verticalAlign": "VERTICAL_ALIGN_CENTER"
+            }
+          },
+          "position": {
+            "x": 0,
+            "y": 0,
+            "width": 10,
+            "height": 2
+          }
+        },
+        {
+          "widget": {
+            "name": "d8243291",
+            "multilineTextboxSpec": {
+              "lines": [
+                "<span style=\"color: #00A972;\">**o -**</span> Libertadores\n",
+                "\n",
+                "<span style=\"color: #077A9D;\">**o -**</span> Pré-Libertadores\n",
+                "\n",
+                "<span style=\"color: #FF3621;\">**o -&#32;** </span>Zona de rebaixamento"
+              ]
+            }
+          },
+          "position": {
+            "x": 0,
+            "y": 14,
+            "width": 12,
+            "height": 2
+          }
+        },
+        {
+          "widget": {
+            "name": "time",
+            "queries": [
+              {
+                "name": "dashboards/01f17327516f164985b68f345fc6626f/datasets/01f1732cce181fceb73ecc58aee140a6_team_name",
+                "query": {
+                  "datasetName": "7d618a42",
+                  "fields": [
+                    {
+                      "name": "team_name",
+                      "expression": "`team_name`"
+                    },
+                    {
+                      "name": "team_name_associativity",
+                      "expression": "COUNT_IF(`associative_filter_predicate_group`)"
+                    }
+                  ],
+                  "disaggregated": false
+                }
+              }
+            ],
+            "spec": {
+              "version": 2,
+              "frame": {
+                "showTitle": true,
+                "title": "Time"
+              },
+              "widgetType": "filter-multi-select",
+              "encodings": {
+                "fields": [
+                  {
+                    "fieldName": "team_name",
+                    "queryName": "dashboards/01f17327516f164985b68f345fc6626f/datasets/01f1732cce181fceb73ecc58aee140a6_team_name"
+                  }
+                ]
+              }
+            }
+          },
+          "position": {
+            "x": 10,
+            "y": 0,
+            "width": 2,
+            "height": 2
+          }
+        }
+      ],
+      "pageType": "PAGE_TYPE_CANVAS",
+      "layoutVersion": "GRID_V1"
+    },
+    {
+      "name": "426b6de8",
+      "displayName": "Jogadores",
+      "layout": [
+        {
+          "widget": {
+            "name": "b0e6b86d",
+            "multilineTextboxSpec": {
+              "lines": [
+                "# <span style=\"text-align:center;display:block\"><span style=\"font-size:24px\">**Estatísticas por Jogador - Campeonato Brasileiro Série A 2026**</span></span>\n",
+                "\n",
+                "<span style=\"font-size:10px\">Apresentação de 15 jogadores por página</span>"
+              ]
+            }
+          },
+          "position": {
+            "x": 0,
+            "y": 0,
+            "width": 10,
+            "height": 2
+          }
+        },
+        {
+          "widget": {
+            "name": "art",
+            "queries": [
+              {
+                "name": "main_query",
+                "query": {
+                  "datasetName": "970b65ab",
+                  "fields": [
+                    {
+                      "name": "goals_rank",
+                      "expression": "`goals_rank`"
+                    },
+                    {
+                      "name": "player_name",
+                      "expression": "`player_name`"
+                    },
+                    {
+                      "name": "team_name",
+                      "expression": "`team_name`"
+                    },
+                    {
+                      "name": "goals",
+                      "expression": "`goals`"
+                    }
+                  ],
+                  "disaggregated": true
+                }
+              }
+            ],
+            "spec": {
+              "version": 2,
+              "rowsPerPage": 15,
+              "frame": {
+                "showTitle": true,
+                "title": "Artilharia",
+                "headerAlignment": "center"
+              },
+              "widgetType": "table",
+              "encodings": {
+                "columns": [
+                  {
+                    "fieldName": "goals_rank",
+                    "contentAlignment": "left",
+                    "columnWidth": 230,
+                    "displayName": "Posição"
+                  },
+                  {
+                    "fieldName": "player_name",
+                    "columnWidth": 230,
+                    "displayName": "Jogador"
+                  },
+                  {
+                    "fieldName": "team_name",
+                    "columnWidth": 230,
+                    "displayName": "Time"
+                  },
+                  {
+                    "fieldName": "goals",
+                    "contentAlignment": "left",
+                    "displayName": "Gols marcados"
+                  }
+                ]
+              },
+              "data": {
+                "queryName": "main_query"
+              }
+            }
+          },
+          "position": {
+            "x": 0,
+            "y": 2,
+            "width": 6,
+            "height": 10
+          }
+        },
+        {
+          "widget": {
+            "name": "e3467de3",
+            "queries": [
+              {
+                "name": "main_query",
+                "query": {
+                  "datasetName": "970b65ab",
+                  "fields": [
+                    {
+                      "name": "assists_rank",
+                      "expression": "`assists_rank`"
+                    },
+                    {
+                      "name": "player_name",
+                      "expression": "`player_name`"
+                    },
+                    {
+                      "name": "team_name",
+                      "expression": "`team_name`"
+                    },
+                    {
+                      "name": "assists",
+                      "expression": "`assists`"
+                    }
+                  ],
+                  "disaggregated": true
+                }
+              }
+            ],
+            "spec": {
+              "version": 2,
+              "rowsPerPage": 15,
+              "frame": {
+                "showTitle": true,
+                "title": "Assistências",
+                "headerAlignment": "center"
+              },
+              "widgetType": "table",
+              "encodings": {
+                "columns": [
+                  {
+                    "fieldName": "assists_rank",
+                    "contentAlignment": "left",
+                    "columnWidth": 230,
+                    "displayName": "Posição",
+                    "style": {
+                      "type": "basic",
+                      "rules": [
+                        {
+                          "condition": {
+                            "operator": ">="
+                          },
+                          "backgroundColor": "#00A972"
+                        }
+                      ]
+                    }
+                  },
+                  {
+                    "fieldName": "player_name",
+                    "columnWidth": 230,
+                    "displayName": "Jogador"
+                  },
+                  {
+                    "fieldName": "team_name",
+                    "columnWidth": 230,
+                    "displayName": "Time"
+                  },
+                  {
+                    "fieldName": "assists",
+                    "contentAlignment": "left",
+                    "displayName": "Assistências"
+                  }
+                ],
+                "rowOrder": [
+                  {
+                    "by": "column",
+                    "field": {
+                      "index": 0
+                    }
+                  }
+                ]
+              },
+              "data": {
+                "queryName": "main_query"
+              }
+            }
+          },
+          "position": {
+            "x": 6,
+            "y": 2,
+            "width": 6,
+            "height": 10
+          }
+        },
+        {
+          "widget": {
+            "name": "f34933fd",
+            "queries": [
+              {
+                "name": "main_query",
+                "query": {
+                  "datasetName": "970b65ab",
+                  "fields": [
+                    {
+                      "name": "yellow_cards_rank",
+                      "expression": "`yellow_cards_rank`"
+                    },
+                    {
+                      "name": "player_name",
+                      "expression": "`player_name`"
+                    },
+                    {
+                      "name": "team_name",
+                      "expression": "`team_name`"
+                    },
+                    {
+                      "name": "yellow_cards",
+                      "expression": "`yellow_cards`"
+                    }
+                  ],
+                  "disaggregated": true
+                }
+              }
+            ],
+            "spec": {
+              "version": 2,
+              "rowsPerPage": 15,
+              "frame": {
+                "showTitle": true,
+                "title": "Cartões Amarelos",
+                "headerAlignment": "center"
+              },
+              "widgetType": "table",
+              "encodings": {
+                "columns": [
+                  {
+                    "fieldName": "yellow_cards_rank",
+                    "contentAlignment": "left",
+                    "columnWidth": 210,
+                    "displayName": "Posição"
+                  },
+                  {
+                    "fieldName": "player_name",
+                    "columnWidth": 215,
+                    "displayName": "Jogador"
+                  },
+                  {
+                    "fieldName": "team_name",
+                    "columnWidth": 215,
+                    "displayName": "Time"
+                  },
+                  {
+                    "fieldName": "yellow_cards",
+                    "contentAlignment": "left",
+                    "displayName": "Cartões amarelos recebidos"
+                  }
+                ],
+                "rowOrder": [
+                  {
+                    "by": "column",
+                    "field": {
+                      "index": 0
+                    }
+                  }
+                ]
+              },
+              "data": {
+                "queryName": "main_query"
+              }
+            }
+          },
+          "position": {
+            "x": 0,
+            "y": 12,
+            "width": 6,
+            "height": 10
+          }
+        },
+        {
+          "widget": {
+            "name": "7da985c5",
+            "queries": [
+              {
+                "name": "main_query",
+                "query": {
+                  "datasetName": "970b65ab",
+                  "fields": [
+                    {
+                      "name": "red_cards_rank",
+                      "expression": "`red_cards_rank`"
+                    },
+                    {
+                      "name": "player_name",
+                      "expression": "`player_name`"
+                    },
+                    {
+                      "name": "team_name",
+                      "expression": "`team_name`"
+                    },
+                    {
+                      "name": "red_cards",
+                      "expression": "`red_cards`"
+                    }
+                  ],
+                  "disaggregated": true
+                }
+              }
+            ],
+            "spec": {
+              "version": 2,
+              "rowsPerPage": 15,
+              "frame": {
+                "showTitle": true,
+                "title": "Cartões Vermelhos",
+                "headerAlignment": "center"
+              },
+              "widgetType": "table",
+              "encodings": {
+                "columns": [
+                  {
+                    "fieldName": "red_cards_rank",
+                    "contentAlignment": "left",
+                    "columnWidth": 210,
+                    "displayName": "Posição"
+                  },
+                  {
+                    "fieldName": "player_name",
+                    "columnWidth": 210,
+                    "displayName": "Jogador"
+                  },
+                  {
+                    "fieldName": "team_name",
+                    "columnWidth": 210,
+                    "displayName": "Time"
+                  },
+                  {
+                    "fieldName": "red_cards",
+                    "contentAlignment": "left",
+                    "displayName": "Cartões vermelhos recebidos"
+                  }
+                ],
+                "rowOrder": [
+                  {
+                    "by": "column",
+                    "field": {
+                      "index": 0
+                    }
+                  }
+                ]
+              },
+              "data": {
+                "queryName": "main_query"
+              }
+            }
+          },
+          "position": {
+            "x": 6,
+            "y": 12,
+            "width": 6,
+            "height": 10
+          }
+        },
+        {
+          "widget": {
+            "name": "51e1dc18",
+            "queries": [
+              {
+                "name": "dashboards/01f17327516f164985b68f345fc6626f/datasets/01f1733723cc10929fa939f59a183a2c_player_name",
+                "query": {
+                  "datasetName": "970b65ab",
+                  "fields": [
+                    {
+                      "name": "player_name",
+                      "expression": "`player_name`"
+                    },
+                    {
+                      "name": "player_name_associativity",
+                      "expression": "COUNT_IF(`associative_filter_predicate_group`)"
+                    }
+                  ],
+                  "disaggregated": false
+                }
+              }
+            ],
+            "spec": {
+              "version": 2,
+              "frame": {
+                "showTitle": true,
+                "title": "Jogador "
+              },
+              "widgetType": "filter-multi-select",
+              "encodings": {
+                "fields": [
+                  {
+                    "fieldName": "player_name",
+                    "queryName": "dashboards/01f17327516f164985b68f345fc6626f/datasets/01f1733723cc10929fa939f59a183a2c_player_name"
+                  }
+                ]
+              }
+            }
+          },
+          "position": {
+            "x": 10,
+            "y": 0,
+            "width": 2,
+            "height": 1
+          }
+        },
+        {
+          "widget": {
+            "name": "abeedd2c",
+            "queries": [
+              {
+                "name": "dashboards/01f17327516f164985b68f345fc6626f/datasets/01f1733723cc10929fa939f59a183a2c_team_name",
+                "query": {
+                  "datasetName": "970b65ab",
+                  "fields": [
+                    {
+                      "name": "team_name",
+                      "expression": "`team_name`"
+                    },
+                    {
+                      "name": "team_name_associativity",
+                      "expression": "COUNT_IF(`associative_filter_predicate_group`)"
+                    }
+                  ],
+                  "disaggregated": false
+                }
+              }
+            ],
+            "spec": {
+              "version": 2,
+              "frame": {
+                "showTitle": true,
+                "title": "Time"
+              },
+              "widgetType": "filter-multi-select",
+              "encodings": {
+                "fields": [
+                  {
+                    "fieldName": "team_name",
+                    "queryName": "dashboards/01f17327516f164985b68f345fc6626f/datasets/01f1733723cc10929fa939f59a183a2c_team_name"
+                  }
+                ]
+              }
+            }
+          },
+          "position": {
+            "x": 10,
+            "y": 1,
+            "width": 2,
+            "height": 1
+          }
+        }
+      ],
+      "pageType": "PAGE_TYPE_CANVAS",
+      "layoutVersion": "GRID_V1"
+    },
+    {
+      "name": "52e72b7e",
+      "displayName": "Estatísticas Gerais",
+      "layout": [
+        {
+          "widget": {
+            "name": "f58501ba",
+            "multilineTextboxSpec": {
+              "lines": [
+                "# <span style=\"text-align:center;display:block\"><span style=\"font-size:24px\">**Estatísticas Gerais - Comparação entre times**</span></span>"
+              ]
+            }
+          },
+          "position": {
+            "x": 0,
+            "y": 0,
+            "width": 10,
+            "height": 2
+          }
+        },
+        {
+          "widget": {
+            "name": "top-10",
+            "queries": [
+              {
+                "name": "main_query",
+                "query": {
+                  "datasetName": "7d618a42",
+                  "fields": [
+                    {
+                      "name": "goals_for",
+                      "expression": "`goals_for`"
+                    },
+                    {
+                      "name": "team_name",
+                      "expression": "`team_name`"
+                    }
+                  ],
+                  "disaggregated": true
+                }
+              }
+            ],
+            "spec": {
+              "version": 3,
+              "frame": {
+                "showTitle": true,
+                "title": "Gols marcados por time",
+                "headerAlignment": "center"
+              },
+              "widgetType": "bar",
+              "encodings": {
+                "x": {
+                  "fieldName": "goals_for",
+                  "axis": {
+                    "title": "Gols marcados"
+                  },
+                  "displayName": "Gols marcados",
+                  "scale": {
+                    "type": "quantitative",
+                    "domain": {
+                      "min": 0,
+                      "max": 32
+                    }
+                  }
+                },
+                "y": {
+                  "fieldName": "team_name",
+                  "displayName": "Time",
+                  "scale": {
+                    "type": "categorical",
+                    "sort": {
+                      "by": "x-reversed"
+                    }
+                  }
+                },
+                "label": {
+                  "show": false
+                }
+              },
+              "data": {
+                "queryName": "main_query"
+              }
+            }
+          },
+          "position": {
+            "x": 0,
+            "y": 2,
+            "width": 6,
+            "height": 8
+          }
+        },
+        {
+          "widget": {
+            "name": "e5b4dc6f",
+            "queries": [
+              {
+                "name": "main_query",
+                "query": {
+                  "datasetName": "ac5771a4",
+                  "fields": [
+                    {
+                      "name": "shots_on_goal_pct",
+                      "expression": "`shots_on_goal_pct`"
+                    },
+                    {
+                      "name": "shots_blocked_pct",
+                      "expression": "`shots_blocked_pct`"
+                    },
+                    {
+                      "name": "shots_off_goal_pct",
+                      "expression": "`shots_off_goal_pct`"
+                    },
+                    {
+                      "name": "team_name",
+                      "expression": "`team_name`"
+                    }
+                  ],
+                  "disaggregated": true
+                }
+              }
+            ],
+            "spec": {
+              "version": 3,
+              "frame": {
+                "showTitle": true,
+                "title": "Estatísticas de chutes a gol por time",
+                "headerAlignment": "center"
+              },
+              "mark": {
+                "colors": [
+                  {
+                    "themeColorType": "visualizationColors",
+                    "position": 3
+                  },
+                  {
+                    "themeColorType": "visualizationColors",
+                    "position": 2
+                  },
+                  {
+                    "themeColorType": "visualizationColors",
+                    "position": 4
+                  },
+                  {
+                    "themeColorType": "visualizationColors",
+                    "position": 6
+                  },
+                  {
+                    "themeColorType": "visualizationColors",
+                    "position": 7
+                  },
+                  {
+                    "themeColorType": "visualizationColors",
+                    "position": 8
+                  },
+                  {
+                    "themeColorType": "visualizationColors",
+                    "position": 9
+                  },
+                  {
+                    "themeColorType": "visualizationColors",
+                    "position": 10
+                  },
+                  {
+                    "themeColorType": "visualizationColors",
+                    "position": 9
+                  },
+                  {
+                    "themeColorType": "visualizationColors",
+                    "position": 10
+                  }
+                ]
+              },
+              "widgetType": "bar",
+              "encodings": {
+                "x": {
+                  "scale": {
+                    "type": "quantitative",
+                    "domain": {
+                      "max": 100
+                    }
+                  },
+                  "fields": [
+                    {
+                      "fieldName": "shots_on_goal_pct",
+                      "displayName": "Chutes no gol (%)"
+                    },
+                    {
+                      "fieldName": "shots_blocked_pct",
+                      "displayName": "Chutes bloqueados (%)"
+                    },
+                    {
+                      "fieldName": "shots_off_goal_pct",
+                      "displayName": "Chutes pra fora (%)"
+                    }
+                  ],
+                  "axis": {
+                    "title": "Total de chutes (%)"
+                  }
+                },
+                "y": {
+                  "fieldName": "team_name",
+                  "axis": {
+                    "title": "Time"
+                  },
+                  "scale": {
+                    "type": "categorical",
+                    "categorySize": {
+                      "type": "number-of-categories",
+                      "number": 20
+                    },
+                    "sort": {
+                      "by": "natural-order"
+                    }
+                  }
+                },
+                "color": {
+                  "legend": {
+                    "position": "bottom"
+                  }
+                },
+                "label": {
+                  "show": true
+                }
+              },
+              "data": {
+                "queryName": "main_query"
+              }
+            }
+          },
+          "position": {
+            "x": 6,
+            "y": 2,
+            "width": 6,
+            "height": 8
+          }
+        },
+        {
+          "widget": {
+            "name": "acur",
+            "queries": [
+              {
+                "name": "main_query",
+                "query": {
+                  "datasetName": "ac5771a4",
+                  "fields": [
+                    {
+                      "name": "pass_accuracy_pct",
+                      "expression": "`pass_accuracy_pct`"
+                    },
+                    {
+                      "name": "team_name",
+                      "expression": "`team_name`"
+                    }
+                  ],
+                  "disaggregated": true
+                }
+              }
+            ],
+            "spec": {
+              "version": 3,
+              "frame": {
+                "showTitle": true,
+                "title": "Acurácia de passes por time",
+                "headerAlignment": "center"
+              },
+              "widgetType": "bar",
+              "encodings": {
+                "x": {
+                  "fieldName": "pass_accuracy_pct",
+                  "axis": {
+                    "title": "Acurácia de passes (%)"
+                  },
+                  "scale": {
+                    "type": "quantitative",
+                    "domain": {
+                      "max": 90
+                    }
+                  }
+                },
+                "y": {
+                  "fieldName": "team_name",
+                  "axis": {
+                    "title": "Time"
+                  },
+                  "scale": {
+                    "type": "categorical",
+                    "sort": {
+                      "by": "x-reversed"
+                    }
+                  }
+                }
+              },
+              "data": {
+                "queryName": "main_query"
+              }
+            }
+          },
+          "position": {
+            "x": 0,
+            "y": 10,
+            "width": 6,
+            "height": 8
+          }
+        },
+        {
+          "widget": {
+            "name": "1b403f85",
+            "queries": [
+              {
+                "name": "main_query",
+                "query": {
+                  "datasetName": "7d618a42",
+                  "fields": [
+                    {
+                      "name": "yellow_cards",
+                      "expression": "`yellow_cards`"
+                    },
+                    {
+                      "name": "red_cards",
+                      "expression": "`red_cards`"
+                    },
+                    {
+                      "name": "team_name",
+                      "expression": "`team_name`"
+                    }
+                  ],
+                  "disaggregated": true
+                }
+              }
+            ],
+            "spec": {
+              "version": 3,
+              "frame": {
+                "showTitle": true,
+                "title": "Cartões recebidos por time",
+                "headerAlignment": "center"
+              },
+              "mark": {
+                "colors": [
+                  {
+                    "themeColorType": "visualizationColors",
+                    "position": 2
+                  },
+                  {
+                    "themeColorType": "visualizationColors",
+                    "position": 4
+                  },
+                  {
+                    "themeColorType": "visualizationColors",
+                    "position": 6
+                  },
+                  {
+                    "themeColorType": "visualizationColors",
+                    "position": 7
+                  },
+                  {
+                    "themeColorType": "visualizationColors",
+                    "position": 8
+                  },
+                  {
+                    "themeColorType": "visualizationColors",
+                    "position": 9
+                  },
+                  {
+                    "themeColorType": "visualizationColors",
+                    "position": 10
+                  },
+                  {
+                    "themeColorType": "visualizationColors",
+                    "position": 9
+                  },
+                  {
+                    "themeColorType": "visualizationColors",
+                    "position": 10
+                  },
+                  {
+                    "themeColorType": "visualizationColors",
+                    "position": 10
+                  }
+                ]
+              },
+              "widgetType": "bar",
+              "encodings": {
+                "x": {
+                  "scale": {
+                    "type": "quantitative"
+                  },
+                  "fields": [
+                    {
+                      "fieldName": "yellow_cards",
+                      "displayName": "Cartões amarelos"
+                    },
+                    {
+                      "fieldName": "red_cards",
+                      "displayName": "Cartões vermelhos"
+                    }
+                  ],
+                  "axis": {
+                    "title": "Total de cartões"
+                  }
+                },
+                "y": {
+                  "fieldName": "team_name",
+                  "axis": {
+                    "title": "Time"
+                  },
+                  "scale": {
+                    "type": "categorical",
+                    "categorySize": {
+                      "type": "number-of-categories",
+                      "number": 20
+                    },
+                    "sort": {
+                      "by": "x-reversed"
+                    }
+                  }
+                },
+                "color": {
+                  "legend": {
+                    "position": "bottom"
+                  }
+                },
+                "label": {
+                  "show": true
+                }
+              },
+              "data": {
+                "queryName": "main_query"
+              }
+            }
+          },
+          "position": {
+            "x": 6,
+            "y": 10,
+            "width": 6,
+            "height": 8
+          }
+        },
+        {
+          "widget": {
+            "name": "91a51639",
+            "queries": [
+              {
+                "name": "dashboards/01f17327516f164985b68f345fc6626f/datasets/01f1732cce181fceb73ecc58aee140a6_team_name",
+                "query": {
+                  "datasetName": "7d618a42",
+                  "fields": [
+                    {
+                      "name": "team_name",
+                      "expression": "`team_name`"
+                    },
+                    {
+                      "name": "team_name_associativity",
+                      "expression": "COUNT_IF(`associative_filter_predicate_group`)"
+                    }
+                  ],
+                  "disaggregated": false
+                }
+              }
+            ],
+            "spec": {
+              "version": 2,
+              "frame": {
+                "showTitle": true,
+                "title": "Time"
+              },
+              "widgetType": "filter-multi-select",
+              "encodings": {
+                "fields": [
+                  {
+                    "fieldName": "team_name",
+                    "queryName": "dashboards/01f17327516f164985b68f345fc6626f/datasets/01f1732cce181fceb73ecc58aee140a6_team_name"
+                  }
+                ]
+              }
+            }
+          },
+          "position": {
+            "x": 10,
+            "y": 0,
+            "width": 2,
+            "height": 2
+          }
+        }
+      ],
+      "pageType": "PAGE_TYPE_CANVAS",
+      "layoutVersion": "GRID_V1"
+    },
+    {
+      "name": "d8c9eeda",
+      "displayName": "Estatísticas Gerais por Time",
+      "layout": [
+        {
+          "widget": {
+            "name": "65027f7d",
+            "multilineTextboxSpec": {
+              "lines": [
+                "# <span style=\"text-align:center;display:block\"><span style=\"font-size:24px\">**Estatísticas Gerais - Separadas por Time&#32;**</span></span>\n",
+                "\n",
+                "<span style=\"font-size:10px\">**Use o filtro para selecionar o time desejado  -&#32; </span><span style=\"font-size:10px\">Apresentação da estatística consolidada de todo campeonato**</span>"
+              ]
+            }
+          },
+          "position": {
+            "x": 0,
+            "y": 0,
+            "width": 12,
+            "height": 2
+          }
+        },
+        {
+          "widget": {
+            "name": "time",
+            "queries": [
+              {
+                "name": "dashboards/01f17327516f164985b68f345fc6626f/datasets/01f1732cce181fceb73ecc58aee140a6_team_name",
+                "query": {
+                  "datasetName": "7d618a42",
+                  "fields": [
+                    {
+                      "name": "team_name",
+                      "expression": "`team_name`"
+                    },
+                    {
+                      "name": "team_name_associativity",
+                      "expression": "COUNT_IF(`associative_filter_predicate_group`)"
+                    }
+                  ],
+                  "disaggregated": false
+                }
+              }
+            ],
+            "spec": {
+              "version": 2,
+              "frame": {
+                "showTitle": true,
+                "title": "Time "
+              },
+              "widgetType": "filter-single-select",
+              "encodings": {
+                "fields": [
+                  {
+                    "fieldName": "team_name",
+                    "queryName": "dashboards/01f17327516f164985b68f345fc6626f/datasets/01f1732cce181fceb73ecc58aee140a6_team_name"
+                  }
+                ]
+              }
+            }
+          },
+          "position": {
+            "x": 0,
+            "y": 2,
+            "width": 12,
+            "height": 1
+          }
+        },
+        {
+          "widget": {
+            "name": "escanteios",
+            "queries": [
+              {
+                "name": "main_query",
+                "query": {
+                  "datasetName": "7d618a42",
+                  "fields": [
+                    {
+                      "name": "sum(corners)",
+                      "expression": "SUM(`corners`)"
+                    }
+                  ],
+                  "disaggregated": false
+                }
+              }
+            ],
+            "spec": {
+              "version": 2,
+              "frame": {
+                "showTitle": true,
+                "title": "Escanteios ",
+                "headerAlignment": "center"
+              },
+              "widgetType": "counter",
+              "encodings": {
+                "value": {
+                  "fieldName": "sum(corners)"
+                }
+              },
+              "data": {
+                "queryName": "main_query"
+              }
+            }
+          },
+          "position": {
+            "x": 0,
+            "y": 3,
+            "width": 6,
+            "height": 5
+          }
+        },
+        {
+          "widget": {
+            "name": "f1a16c64",
+            "queries": [
+              {
+                "name": "main_query",
+                "query": {
+                  "datasetName": "7d618a42",
+                  "fields": [
+                    {
+                      "name": "sum(penalty)",
+                      "expression": "SUM(`penalty`)"
+                    }
+                  ],
+                  "disaggregated": false
+                }
+              }
+            ],
+            "spec": {
+              "version": 2,
+              "frame": {
+                "showTitle": true,
+                "title": "Penâltis",
+                "headerAlignment": "center"
+              },
+              "widgetType": "counter",
+              "encodings": {
+                "value": {
+                  "fieldName": "sum(penalty)"
+                }
+              },
+              "data": {
+                "queryName": "main_query"
+              }
+            }
+          },
+          "position": {
+            "x": 6,
+            "y": 3,
+            "width": 6,
+            "height": 5
+          }
+        },
+        {
+          "widget": {
+            "name": "9bc58893",
+            "queries": [
+              {
+                "name": "main_query",
+                "query": {
+                  "datasetName": "7d618a42",
+                  "fields": [
+                    {
+                      "name": "sum(offsides)",
+                      "expression": "SUM(`offsides`)"
+                    }
+                  ],
+                  "disaggregated": false
+                }
+              }
+            ],
+            "spec": {
+              "version": 2,
+              "frame": {
+                "showTitle": true,
+                "title": "Impedimentos",
+                "headerAlignment": "center"
+              },
+              "widgetType": "counter",
+              "encodings": {
+                "value": {
+                  "fieldName": "sum(offsides)"
+                }
+              },
+              "data": {
+                "queryName": "main_query"
+              }
+            }
+          },
+          "position": {
+            "x": 0,
+            "y": 8,
+            "width": 6,
+            "height": 5
+          }
+        },
+        {
+          "widget": {
+            "name": "s1",
+            "queries": [
+              {
+                "name": "main_query",
+                "query": {
+                  "datasetName": "7d618a42",
+                  "fields": [
+                    {
+                      "name": "sum(substitutions)",
+                      "expression": "SUM(`substitutions`)"
+                    }
+                  ],
+                  "disaggregated": false
+                }
+              }
+            ],
+            "spec": {
+              "version": 2,
+              "frame": {
+                "showTitle": true,
+                "headerAlignment": "center",
+                "title": "Substituições"
+              },
+              "widgetType": "counter",
+              "encodings": {
+                "value": {
+                  "fieldName": "sum(substitutions)"
+                }
+              },
+              "data": {
+                "queryName": "main_query"
+              }
+            }
+          },
+          "position": {
+            "x": 6,
+            "y": 8,
+            "width": 6,
+            "height": 5
+          }
+        }
+      ],
+      "pageType": "PAGE_TYPE_CANVAS",
+      "layoutVersion": "GRID_V1"
+    }
+  ],
+  "uiSettings": {
+    "theme": {
+      "widgetHeaderAlignment": "ALIGNMENT_UNSPECIFIED"
+    },
+    "applyModeEnabled": false
+  }
+}

@@ -1,0 +1,97 @@
+resources:
+  jobs:
+    API_Campeonato_Brasileiro:
+      name: API_Campeonato_Brasileiro
+      email_notifications:
+        on_failure:
+          - mayferreira012@gmail.com
+      schedule:
+        quartz_cron_expression: 58 0 7 * * ?
+        timezone_id: America/Sao_Paulo
+        pause_status: UNPAUSED
+      tasks:
+        - task_key: bronze_api
+          notebook_task:
+            notebook_path: /Workspace/Users/mayferreira012@gmail.com/databricks_api_football/notebooks/bronze/bronze
+            source: WORKSPACE
+          max_retries: 2
+          min_retry_interval_millis: 10000
+          disable_auto_optimization: false
+        - task_key: silver_cards
+          depends_on:
+            - task_key: bronze_api
+          notebook_task:
+            notebook_path: /Workspace/Users/mayferreira012@gmail.com/databricks_api_football/notebooks/silver/cards
+            source: WORKSPACE
+          max_retries: 2
+          min_retry_interval_millis: 10000
+          disable_auto_optimization: false
+        - task_key: silver_goals
+          depends_on:
+            - task_key: bronze_api
+          notebook_task:
+            notebook_path: /Workspace/Users/mayferreira012@gmail.com/databricks_api_football/notebooks/silver/goals
+            source: WORKSPACE
+          max_retries: 2
+          min_retry_interval_millis: 10000
+          disable_auto_optimization: false
+        - task_key: gold_players
+          depends_on:
+            - task_key: silver_cards
+            - task_key: silver_goals
+          notebook_task:
+            notebook_path: /Workspace/Users/mayferreira012@gmail.com/databricks_api_football/notebooks/gold/players_statistics
+            source: WORKSPACE
+          max_retries: 2
+          min_retry_interval_millis: 10000
+          disable_auto_optimization: false
+        - task_key: silver_matches
+          depends_on:
+            - task_key: bronze_api
+          notebook_task:
+            notebook_path: /Workspace/Users/mayferreira012@gmail.com/databricks_api_football/notebooks/silver/matches
+            source: WORKSPACE
+          max_retries: 2
+          min_retry_interval_millis: 10000
+          disable_auto_optimization: false
+        - task_key: silver_statistics
+          depends_on:
+            - task_key: bronze_api
+          notebook_task:
+            notebook_path: /Workspace/Users/mayferreira012@gmail.com/databricks_api_football/notebooks/silver/statistics
+            source: WORKSPACE
+          max_retries: 2
+          min_retry_interval_millis: 10000
+          disable_auto_optimization: false
+        - task_key: gold_acuracy
+          depends_on:
+            - task_key: silver_statistics
+          notebook_task:
+            notebook_path: /Workspace/Users/mayferreira012@gmail.com/databricks_api_football/notebooks/gold/acuracy_statistics
+            source: WORKSPACE
+          max_retries: 2
+          min_retry_interval_millis: 10000
+          disable_auto_optimization: false
+        - task_key: gold_team
+          depends_on:
+            - task_key: silver_cards
+            - task_key: silver_statistics
+            - task_key: silver_matches
+          notebook_task:
+            notebook_path: /Workspace/Users/mayferreira012@gmail.com/databricks_api_football/notebooks/gold/team_statistics
+            source: WORKSPACE
+          max_retries: 2
+          min_retry_interval_millis: 10000
+          disable_auto_optimization: false
+        - task_key: Dashboard
+          depends_on:
+            - task_key: gold_team
+            - task_key: gold_acuracy
+            - task_key: gold_players
+          dashboard_task:
+            subscription: {}
+            warehouse_id: d6bec1516fb8cc2d
+            dashboard_id: 01f17327516f164985b68f345fc6626f
+      queue:
+        enabled: true
+      performance_target: STANDARD
