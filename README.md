@@ -9,26 +9,23 @@ Todo o projeto foi desenvolvido no **Databricks**, utilizando **PySpark**, **Del
 # Arquitetura
 
 ```text
-                    Football API
-                         │
-                         ▼
-                 Bronze (Raw Layer)
-                         │
-        ┌────────────────┴────────────────┐
-        ▼                ▼               ▼
-    Silver            Silver         Silver
-   Matches             Goals          Cards
-                         │
-                         ▼
-                 Silver Statistics
-                         │
-      ┌──────────────────┼──────────────────┐
-      ▼                  ▼                  ▼
- Gold Team        Gold Players      Gold Accuracy
- Statistics        Statistics        Statistics
-      │
-      ▼
- Databricks SQL Dashboard
+                       Football API
+                             │
+                             ▼
+                     Bronze (Raw Layer)
+                             │
+        ┌────────────────────│───────────────│──────────────┐
+        ▼                    ▼               ▼              ▼  
+    Silver                Silver           Silver          Silver  
+   Matches                 Goals            Cards           Statistics
+                             │
+          ┌──────────────────┼──────────────────┐
+          ▼                  ▼                  ▼
+       Gold Team        Gold Players      Gold Accuracy
+        Statistics        Statistics        Statistics
+                             │
+                             ▼
+                  Databricks SQL Dashboard
 ```
 
 ---
@@ -206,20 +203,38 @@ Toda a execução do pipeline é realizada através de um **Databricks Workflow*
 Fluxo:
 
 ```text
-Bronze
-   │
-   ├──────────┬──────────┬──────────────┐
-   ▼          ▼          ▼              ▼
-Matches     Goals      Cards      Statistics
-                                │
-                                ▼
-                    Players Statistics
-                                │
-                                ▼
-                    Accuracy Statistics
-                                │
-                                ▼
-                      Team Statistics
+                         Football API
+                              │
+                              ▼
+                    ┌─────────────────┐
+                    │   bronze_api    │
+                    └─────────────────┘
+                              │
+      ┌───────────────┬────────┼──────────────┬────────────────┐
+      ▼               ▼        ▼              ▼
+┌────────────┐ ┌──────────┐ ┌──────────┐ ┌─────────────────┐
+│  matches   │ │  goals   │ │  cards   │ │   statistics    │
+└────────────┘ └──────────┘ └──────────┘ └─────────────────┘
+      │             │             │              │
+      │             └──────┐      │              │
+      │                    ▼      ▼              │
+      │             ┌──────────────────┐         │
+      │             │ gold_players     │         │
+      │             └──────────────────┘         │
+      │                                          │
+      ├──────────────────────┐                   │
+      │                      ▼                   ▼
+      │             ┌──────────────────┐  ┌──────────────────┐
+      └────────────►│    gold_team     │  │  gold_accuracy   │
+                    └──────────────────┘  └──────────────────┘
+                              │                  │
+                              └────────┬─────────┘
+                                       ▼
+                             ┌──────────────────┐
+                             │    Dashboard     │
+                             └──────────────────┘
+
+
 ```
 
 Características:
