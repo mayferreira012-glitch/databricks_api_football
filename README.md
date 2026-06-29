@@ -61,11 +61,13 @@ O pipeline segue a arquitetura Medallion.
 ## Bronze
 
 Responsável pela ingestão dos dados brutos provenientes da Football API.
+
 Características:
 - armazenamento do payload original
 - rastreabilidade
 - possibilidade de reprocessamento
 - persistência em Delta Lake
+  
 Tabela:
 - bronze.matches_raw
 
@@ -79,6 +81,7 @@ Nesta camada ocorre o tratamento, limpeza, padronização e modelagem dos dados.
 
 Granularidade:
 > 1 registro por partida
+
 Contém:
 - informações da partida
 - equipes
@@ -94,6 +97,7 @@ Contém:
 
 Granularidade:
 > 1 registro por gol
+
 Contém:
 - jogador
 - equipe
@@ -106,6 +110,7 @@ Contém:
 
 Granularidade:
 > 1 registro por cartão
+
 Contém:
 - jogador
 - equipe
@@ -117,12 +122,14 @@ Contém:
 ### statistics
 
 Tabela consolidada contendo as estatísticas das equipes em cada partida.
+
 Durante o processamento foram utilizadas técnicas como:
 - explode de estruturas JSON
 - pivot de dados
 - tratamento de duplicidades
 - normalização de colunas
 - consolidação de estatísticas do mandante e visitante
+- 
 Entre as métricas disponíveis:
 - posse de bola
 - finalizações
@@ -149,6 +156,7 @@ A camada Gold disponibiliza datasets prontos para consumo analítico.
 
 Granularidade:
 > 1 registro por equipe
+
 Indicadores:
 - classificação
 - partidas
@@ -173,11 +181,13 @@ Indicadores:
 
 Granularidade:
 > 1 registro por jogador
+
 Indicadores:
 - gols
 - assistências
 - cartões amarelos
 - cartões vermelhos
+  
 Também são calculados rankings utilizando Window Functions para:
 - artilharia
 - assistências
@@ -188,6 +198,7 @@ Também são calculados rankings utilizando Window Functions para:
 ## accuracy_statistics
 
 Tabela responsável pelo cálculo dos indicadores de eficiência das equipes.
+
 Métricas:
 - percentual de passes certos
 - percentual de finalizações no gol
@@ -340,14 +351,3 @@ project
 - Databricks SQL Dashboards
 - Versionamento Git/GitHub
 - Orquestração de Pipelines
-
----
-
-# Próximas Evoluções
-
-Possíveis melhorias futuras:
-- Implementação de testes automatizados de qualidade dos dados.
-- Monitoramento do pipeline.
-- Integração com CI/CD utilizando Databricks Asset Bundles.
-- Deploy automatizado entre ambientes.
-- Ingestão em streaming para atualização em tempo real.
